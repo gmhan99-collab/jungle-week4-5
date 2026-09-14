@@ -88,6 +88,7 @@ int main()
                 printf("not balanced!\n");
             else
                 printf("balanced!\n");
+			removeAllItemsFromStack(&s);
 			break;
 		case 0:
 			break;
@@ -95,7 +96,6 @@ int main()
 			printf("Choice unknown;\n");
 			break;
 		}
-
 	}
 
 	return 0;
@@ -105,6 +105,46 @@ int main()
 int balanced(char *expression)
 {
 /* add your code here */
+	Stack s;
+	while(*expression != '\0')
+	{
+		// Check part
+		// printf("%c %c\n", peek(&s), *expression);
+		if(*expression == '(' || *expression == '{' || *expression == '[')
+		{
+			push(&s, *expression);
+			// continue;
+		}
+		if(*expression == ')')
+		{
+			if(peek(&s) == '(')
+			{
+				pop(&s);
+				// continue;
+			}
+			else return 1;
+		}
+		else if(*expression == '}')
+		{
+			if(peek(&s) == '{') 
+			{
+				pop(&s);
+				// continue;
+			}
+			else return 1;
+		}
+		else if(*expression == ']')
+		{
+			if(peek(&s) == '[')
+			{
+				pop(&s);
+				// continue;
+			}
+			else return 1;
+		}
+		expression ++;
+	}
+	return !isEmptyStack(&s);
 }
 
 ////////////////////////////////////////////////////////////

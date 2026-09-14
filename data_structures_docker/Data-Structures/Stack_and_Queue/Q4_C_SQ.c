@@ -113,6 +113,20 @@ int main()
 void reverse(Queue *q)
 {
 /* add your code here */
+	Stack s = {0};
+	int length = q->ll.size;
+	if(!isEmptyStack(&s))
+	{
+		removeAllItems(&(s.ll));
+	}
+	for(int i = 0; i < length; i++)
+	{
+		push(&s,dequeue(q));
+	}
+	for(int i = 0; i < length; i++)
+	{
+		enqueue(q, pop(&s));
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

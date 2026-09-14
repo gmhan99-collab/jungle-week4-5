@@ -117,11 +117,37 @@ int main()
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
 	/* add your code here */
+	ListNode *cur = ll->head;
+	// int len = ll->size;
+	if(cur == NULL) return;
+	while(cur != NULL) // cur->next가 segFault가 나냐 or 한개 덜 추가하냐의 싸움인가?
+	{
+		enqueue(q, cur-> item);
+		cur = cur->next;
+	}
 }
 
 void removeOddValues(Queue *q)
 {
 	/* add your code here */
+	ListNode *cur = q->ll.head;
+	int len = 0; // queue의 길이
+	while(cur != NULL)
+	{
+		cur = cur->next;
+		len++;
+	}
+	for(int i = 0; i < len; i++)
+	{
+		cur = (q->ll).head;
+		if (cur->item % 2 == 0)
+		{
+			enqueue(q, cur->item);
+			dequeue(q);
+		}
+		else dequeue(q);
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

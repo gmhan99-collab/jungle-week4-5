@@ -104,6 +104,20 @@ int main()
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
     /* add your code here */
+	// ll1 = 1, 2, 3
+	// ll2 = 4, 5, 6, 7
+	// result ll1 = 1, 4, 2, 5, 3, 6
+	// result ll2 = 7
+
+	int len = (ll1->size < ll2->size) ? ll1->size : ll2->size;
+	int cursor = 1;
+	while(len--)
+	{
+		insertNode(ll1, cursor, ll2->head->item);
+		removeNode(ll2, 0);
+		cursor += 2;
+	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

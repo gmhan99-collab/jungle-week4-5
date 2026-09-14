@@ -88,6 +88,15 @@ int main()
 void RecursiveReverse(ListNode **ptrHead)
 {
 	/* add your code here */
+	// 1 2 3 4 5 -> 5 4 3 2 1 그런데 이제 재귀를 곁들인.
+	ListNode *cur = *ptrHead;
+	ListNode *rest = cur->next;
+	if(cur == NULL || cur->next == NULL) return;
+
+	RecursiveReverse(&rest);
+	cur->next->next = cur;
+	cur->next = NULL;
+	*ptrHead = rest;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

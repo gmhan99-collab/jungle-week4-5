@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 1 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -33,14 +34,17 @@ ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+int isInt(char *s);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
 	LinkedList ll;
-	int c, i, j;
-	c = 1;
+	int j;
+	char c[120];
+	char i[120];
+	int p = 1;
 
 	//Initialize the linked list 1 as an empty linked list
 	ll.head = NULL;
@@ -50,28 +54,48 @@ int main()
 	printf("2: Print the index of the most recent input value:\n");
 	printf("3: Print sorted linked list:\n");
 	printf("0: Quit:");
-
-	while (c != 0)
+	while (p != 0) // was c!= 0
 	{
 		printf("\nPlease input your choice(1/2/3/0): ");
-		scanf("%d", &c);
+		scanf("%119s", c);
+		if(!isInt(c)) 
+		{
+			p = 4;
+			int o;
+			while((o = getchar()) != '\n' && o != EOF){}
 
-		switch (c)
+			// printf("\nWrong input\n");
+		}
+		else p = atoi(c);
+
+		switch (p)
 		{
 		case 1:
 			printf("Input an integer that you want to add to the linked list: ");
-			scanf("%d", &i);
-			j = insertSortedLL(&ll, i);
-			printf("The resulting linked list is: ");
-			printList(&ll);
-			break;
+			// 문자열 입력에 대한 처리를 위한 코드
+			scanf("%119s", i);
+			if(isInt(i)) // 1 when integer, 0 when not
+			{
+				j = insertSortedLL(&ll, atoi(i));
+				printf("The resulting linked list is: ");
+				printList(&ll);
+				break;
+			}
+			else
+			{
+				int k;
+				while((k = getchar()) != '\n' && k != EOF){}
+
+				printf("\nWrong input\n");
+				break;
+			}
 		case 2:
-			printf("The value %d was added at index %d\n", i, j);
+			printf("The value %d was added at index %d\n", atoi(i), j);
 			break;
 		case 3:
 			printf("The resulting sorted linked list is: ");
 			printList(&ll);
-			removeAllItems(&ll);
+			// removeAllItems(&ll);
 			break;
 		case 0:
 			removeAllItems(&ll);
@@ -91,6 +115,27 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+	// use fuction inserNode() to insert
+	ListNode *cur;
+	int count = 0;
+	// input into Empty List
+	if(ll->head == NULL)
+		return insertNode(ll, 0, item);
+	cur = ll->head;
+	while(1)
+	{
+		if(cur == NULL || cur->item >= item)
+		{
+			if(cur != NULL && cur->item == item) return -1;
+			insertNode(ll,count,item);
+			break;
+		}
+		cur = cur->next;
+		count++;
+	}
+	return count;
+
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -216,4 +261,23 @@ int removeNode(LinkedList *ll, int index){
 	}
 
 	return -1;
+}
+
+int isInt(char *s) {
+    if (s[0] == '\0')
+        return 0;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+
+        if (!('0' <= s[i] && s[i] <= '9')) {
+
+            if (s[i] == '-' && i == 0 && s[i + 1] != '\0') {
+                continue;
+            }
+
+            return 0;
+        }
+    }
+
+    return 1;
 }

@@ -86,9 +86,37 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-int moveMaxToFront(ListNode **ptrHead)
+int moveMaxToFront(ListNode **ptrHead) // ll->head와 입력이 같은듯?
 {
     /* add your code here */
+
+	ListNode *cur = *ptrHead;
+	if (cur == NULL || cur->next == NULL) return 0;
+
+	ListNode *beforeMax = cur; // index for before maximum
+	ListNode *max = cur; // index for maximum
+	while(cur != NULL)
+	{
+		if(max->item < cur->item)
+		{
+			max = cur;
+		}
+		cur = cur->next;
+	}
+	cur = *ptrHead;
+	printf("%d\n", max->item);
+	while(cur->item != max->item)
+	{
+		beforeMax = cur;
+		cur = cur->next;
+	}
+
+	beforeMax->next = cur->next; // 앞노드 뒤노드 이어줌
+	cur->next = *ptrHead; // 맨앞으로 땅김
+	*ptrHead = cur; // 
+
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
